@@ -19,25 +19,26 @@ export const fetchPlugin = (inputCode: string) => {
                  };
             });
 
-            // Handle CSS files
-            build.onLoad({filter: /.css$/}, async (args: any) => {
+            // Check for cached results - if found, return immediately else fall through to check next onLoad
+            build.onLoad({ filter: /.*/ }, async (args: any) => { 
                 const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(args.path);
                 if (cachedResult) {
                     return cachedResult;
                 }
-                const { data, request } = await axios.get(args.path);
+            });
 
+            // Handle CSS files
+            build.onLoad({filter: /.css$/}, async (args: any) => {
+                const { data, request } = await axios.get(args.path);
                 const escaped = data
                     .replace(/\n/g, '')
                     .replace(/'/g, "\\'")
                     .replace(/"/g, '\\"');
-
                 const contents = `
                         const style = document.createElement('style');
                         style.innerText = '${escaped}';
                         document.head.appendChild(style);
                     `
-
                 const result: esbuild.OnLoadResult = {
                     loader: 'jsx',
                     contents,
@@ -49,12 +50,7 @@ export const fetchPlugin = (inputCode: string) => {
 
             // Handle everything else
             build.onLoad({ filter: /.*/ }, async (args: any) => {
-                const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(args.path);
-                if (cachedResult) {
-                    return cachedResult;
-                }
                 const { data, request } = await axios.get(args.path);
-
                 const result: esbuild.OnLoadResult = {
                     loader: 'jsx',
                     contents: data,
