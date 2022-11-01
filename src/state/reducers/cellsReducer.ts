@@ -84,7 +84,7 @@ const reducer = produce((
         default:
             return state;
     }
-});
+}, initialState);
 
 // **** Helper Functions
 // Generate a random id
