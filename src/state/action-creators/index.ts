@@ -7,7 +7,7 @@ import {
     InsertCellBeforeAction,
     Direction
 } from "../actions";
-import { Cell, CellTypes } from "../cell";
+import { CellTypes } from "../cell";
 
 export const updateCell = (id: string, content: string): UpdateCellAction => {
     return {
