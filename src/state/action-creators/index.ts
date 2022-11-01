@@ -70,7 +70,7 @@ export const createBundle = (cellId: string, input: string) => {
             }
         });
 
-        const result = await bundle(input).then((result) => {
+        await bundle(input).then((result) => {
             dispatch({
                 type: ActionType.BUNDLE_COMPLETE,
                 payload: {

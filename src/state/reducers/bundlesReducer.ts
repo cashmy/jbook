@@ -4,23 +4,20 @@ import { Action } from "../actions";
 // import { Cell, CellTypes } from "../cell";
 
 interface BundlesState {
-    data: {
-        [key: string]: {
-            loading: boolean;
-            code: string;
-            err: string;
-        }
-    }
+    [key: string]: {
+        loading: boolean;
+        code: string;
+        err: string;
+    } | undefined;
+
 }
 
-const initialState: BundlesState = {
-    data: {}
-};
+const initialState: BundlesState = {};
 
-const reducer = produce((state: BundlesState=initialState, action: Action): BundlesState => {
+const reducer = produce((state: BundlesState = initialState, action: Action): BundlesState => {
     switch (action.type) {
         case ActionType.BUNDLE_START:
-            state.data[action.payload.cellId] = {
+            state[action.payload.cellId] = {
                 loading: true,
                 code: '',
                 err: ''
@@ -28,7 +25,7 @@ const reducer = produce((state: BundlesState=initialState, action: Action): Bund
             return state;
 
         case ActionType.BUNDLE_COMPLETE:
-            state.data[action.payload.cellId] = {
+            state[action.payload.cellId] = {
                 loading: false,
                 code: action.payload.bundle.code,
                 err: action.payload.bundle.err
