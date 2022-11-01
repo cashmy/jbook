@@ -6,26 +6,26 @@ interface ActionBarProps {
 }
 
 const ActionBar: React.FC<ActionBarProps> = ({ id }) => {
-  const { move_cell, delete_cell } = useActions();
+  const { moveCell, deleteCell } = useActions();
 
   return (
     <div className="action-bar">
       {/* Up */}
-      <button className="button is-primary is-small" onClick={() => move_cell(id, 'up')}>
+      <button className="button is-primary is-small" onClick={() => moveCell(id, 'up')}>
         <span className="icon">
           <i className="fas fa-arrow-up"></i>
         </span>
       </button>
 
       {/* Down */}
-      <button className="button is-primary is-small"  onClick={() => move_cell(id, 'down')}>
+      <button className="button is-primary is-small"  onClick={() => moveCell(id, 'down')}>
       <span className="icon">
           <i className="fas fa-arrow-down"></i>
         </span>
       </button>
 
       {/* Delete */}
-      <button className="button is-primary is-small" onClick={() => delete_cell(id)}>
+      <button className="button is-primary is-small" onClick={() => deleteCell(id)}>
       <span className="icon">
           <i className="fas fa-times"></i>
         </span>

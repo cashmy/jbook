@@ -11,7 +11,7 @@ interface TextEditorProps {
 const TextEditor: React.FC<TextEditorProps> = ({cell}) => {
     const ref = useRef<HTMLDivElement | null>(null);
     const [editing, setEditing] = useState(false);
-    const { update_cell } = useActions();
+    const { updateCell } = useActions();
 
 
     useEffect(() => {
@@ -38,7 +38,7 @@ const TextEditor: React.FC<TextEditorProps> = ({cell}) => {
     if (editing) {
         return (
             <div className="text-editor" ref={ref}>
-                <MDEditor value={cell.content} onChange={(v) => update_cell( cell.id,  v || "")} />
+                <MDEditor value={cell.content} onChange={(v) => updateCell( cell.id,  v || "")} />
             </div>
         );
     }

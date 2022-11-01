@@ -13,7 +13,7 @@ interface CodeCellProps {
 const CodeCell: React.FC<CodeCellProps> = ({cell}) => {
   const [code, setCode] = useState('');
   const [err, setErr] = useState('');
-  const { update_cell } = useActions();
+  const { updateCell } = useActions();
 
   useEffect(() => { 
       const timer = setTimeout(async () => {
@@ -32,7 +32,7 @@ const CodeCell: React.FC<CodeCellProps> = ({cell}) => {
         <Resizable direction="horizontal">
           <CodeEditor
             initialValue={cell.content}
-            onChange={(value) => update_cell(cell.id, value)}
+            onChange={(value) => updateCell(cell.id, value)}
           />
         </Resizable>
         <Preview code={code} err={err}/>
