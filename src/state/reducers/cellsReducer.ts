@@ -58,7 +58,7 @@ const reducer = produce((
             state.data[afterCell.id] = afterCell;
             const currentIndex = state.order.findIndex(id => id === afterId);
             if (currentIndex < 0) { // If we didn't find the cell, add it to the end
-                state.order.push(afterCell.id);
+                state.order.unshift(afterCell.id);
             } else {
                 state.order.splice(currentIndex + 1, 0, afterCell.id);
             }
