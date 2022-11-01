@@ -17,12 +17,13 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ onChange, initialValue }) => {
 
   const onEditorDidMount: EditorDidMount = (getValue, monacoEditor) => {
     editorRef.current = monacoEditor;
+    //
     monacoEditor.onDidChangeModelContent(() => {
       onChange(getValue());
     });
 
     monacoEditor.getModel()?.updateOptions({ tabSize: 2 });
-
+    // Add theme to editor (used for syntax highlighting especially in html)
     const highlighter = new Highlighter(
       // @ts-ignore
       window.monaco,
