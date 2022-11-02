@@ -9,10 +9,11 @@ import {
     BundleStartAction,
     BundleCompleteAction,
     Direction,
-    // Action
+    Action
 } from "../actions";
-import { CellTypes } from "../cell";
+import { Cell, CellTypes } from "../cell";
 import bundle from '../../bundler';
+import axios from 'axios';
 
 export const updateCell = (id: string, content: string): UpdateCellAction => {
     return {
@@ -31,7 +32,7 @@ export const deleteCell = (id: string): DeleteCellAction => {
     }
 }
 
-export const moveCell = (id: string, direction: Direction ): MoveCellAction => {
+export const moveCell = (id: string, direction: Direction): MoveCellAction => {
     return {
         type: ActionType.MOVE_CELL,
         payload: {
@@ -62,7 +63,7 @@ export const insertCellBefore = (id: string | null, cellType: CellTypes): Insert
 }
 
 export const createBundle = (cellId: string, input: string) => {
- return async (dispatch: Dispatch<BundleStartAction | BundleCompleteAction>) => {
+    return async (dispatch: Dispatch<BundleStartAction | BundleCompleteAction>) => {
         dispatch({
             type: ActionType.BUNDLE_START,
             payload: {
@@ -82,8 +83,24 @@ export const createBundle = (cellId: string, input: string) => {
     }
 }
 
-// export const fetchCells = () => {
-//     return {
-//         type: ActionType.FETCH_CELLS
-//     }
-// }
+export const fetchCells = () => {
+    return async (dispatch: Dispatch<Action>) => {
+        dispatch({ type: ActionType.FETCH_CELLS });
+
+        try {
+            const { data }: { data: Cell[] } = await axios.get('/cells');
+
+            dispatch({
+                type: ActionType.FETCH_CELLS_COMPLETE,
+                payload: data
+            });
+        } catch (err) {
+            if (err instanceof Error) {
+                dispatch({
+                    type: ActionType.FETCH_CELLS_ERROR,
+                    payload: err.message,
+                });
+            }
+        }
+    }
+}
